@@ -3,6 +3,15 @@ package memberRoll;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -13,7 +22,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MemberRoll extends JFrame implements ActionListener{
+public class MemberRoll extends JFrame implements WindowListener{
 
     /**
      * <p></p>
@@ -22,6 +31,7 @@ public class MemberRoll extends JFrame implements ActionListener{
     
     private JLabel rolledMamberLabel;
     private JTextField memberListTextField;
+    private final String fileName = "memberRoll.txt";
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -38,6 +48,7 @@ public class MemberRoll extends JFrame implements ActionListener{
     
     private void createAndShowGUI(){
         //frame
+        this.addWindowListener(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(400, 200));
         this.setTitle("Member Roll");
@@ -65,7 +76,17 @@ public class MemberRoll extends JFrame implements ActionListener{
         
         JButton rollButton = new JButton("Roll it!");
         mainPanel.add(rollButton);
-        rollButton.addActionListener(this);
+        rollButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+              //catch button click event
+                if (e.getSource() instanceof JButton) {
+                    roll();
+                };
+            }
+        });
         
         //roll area
         JPanel rollPanel = new JPanel();
@@ -84,7 +105,40 @@ public class MemberRoll extends JFrame implements ActionListener{
     }
 
     private String readMemberList(){
-        return "";
+        String text = "";
+        try {
+            File file = new File(fileName);
+            if(file.exists()){
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                StringBuffer stringBuffer = new StringBuffer();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+//                    stringBuffer.append("\n");
+                }
+                fileReader.close();
+                text = stringBuffer.toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        FileInputStream fin = new 
+        return text;
+    }
+    
+    private void saveMemberList(){
+        try {
+            File file = new File(fileName);
+            if(!file.exists()) file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedWriter buffw = new BufferedWriter(new OutputStreamWriter(fos));
+         
+            buffw.write(memberListTextField.getText());
+            buffw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private void roll(){
@@ -95,10 +149,44 @@ public class MemberRoll extends JFrame implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        //catch button click event
-        if (e.getSource() instanceof JButton) {
-            roll();
-        };
+    public void windowOpened(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        // TODO Auto-generated method stub
+        saveMemberList();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 }
