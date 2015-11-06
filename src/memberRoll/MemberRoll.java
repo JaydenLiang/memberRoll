@@ -54,7 +54,7 @@ public class MemberRoll extends JFrame implements WindowListener, Runnable{
     }
     
     public MemberRoll() {
-        
+        //
     }
     
     private void createAndShowGUI(){
