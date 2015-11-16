@@ -40,7 +40,7 @@ public class MemberRoll extends JFrame implements WindowListener, Runnable{
     private final String fileName = "memberRoll.txt";
     private ArrayList<String> memberList;
 
-    private final int concurrentTimeMS = 10;
+    private final int concurrentTimeMS = 11;
 
     private JButton rollButton;
 
@@ -62,7 +62,7 @@ public class MemberRoll extends JFrame implements WindowListener, Runnable{
         this.addWindowListener(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(400, 300));
-        this.setTitle("Member Roll");
+        this.setTitle("Random Member Selector");
         //content pane
         JLayeredPane contentPane = new JLayeredPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
@@ -86,7 +86,7 @@ public class MemberRoll extends JFrame implements WindowListener, Runnable{
         this.memberListTextField.setText(this.readMemberList());
         mainPanel.add(this.memberListTextField);
         
-        rollButton = new JButton("Roll it!");
+        rollButton = new JButton("Give me a random one");
         mainPanel.add(rollButton);
         rollButton.addActionListener(new ActionListener() {
             
@@ -107,7 +107,7 @@ public class MemberRoll extends JFrame implements WindowListener, Runnable{
         rollPanel.setBounds(0, 0, 400, 120);
         this.add(rollPanel);
         
-        JLabel rollLabel = new JLabel("The guy to answer your question is:");
+        JLabel rollLabel = new JLabel("The randomly selected person is:");
         rollLabel.setPreferredSize(new Dimension(380, 20));
         rollPanel.add(rollLabel);
         rolledMamberLabel = new JLabel("");
